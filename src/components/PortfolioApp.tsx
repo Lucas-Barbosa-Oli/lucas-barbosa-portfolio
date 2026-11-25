@@ -59,7 +59,7 @@ const CHAPTERS = [
 ] as const;
 
 export default function PortfolioApp() {
-  const [lang, setLang] = useState<Lang>('pt');
+  const [lang, setLang] = useState<Lang>('en');
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [activeTab, setActiveTab] = useState<'all' | ProjectCategory>('all');
   const [activeChapter, setActiveChapter] = useState<string>('inicio');
@@ -77,6 +77,10 @@ export default function PortfolioApp() {
   useMotionValueEvent(scrollYProgress, 'change', latest => {
     setScrollFraction(latest);
   });
+
+  useEffect(() => {
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
+  }, [lang]);
 
   useEffect(() => {
     const saved = localStorage.getItem('lb:theme');

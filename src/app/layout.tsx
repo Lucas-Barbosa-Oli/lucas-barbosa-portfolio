@@ -23,21 +23,21 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Lucas Oliveira Barbosa — Engenharia Web, IA & Automações',
+  title: 'Lucas Oliveira Barbosa — Web Engineering, AI & Automation',
   description:
-    'Portfólio de Lucas Oliveira Barbosa. Criador do Conta Clara e do Nexo, atuando com Inteligência Artificial, Automações, APIs e Interfaces Web.',
+    'Portfolio of Lucas Oliveira Barbosa, creator of Conta Clara and Nexo. I work with AI, automation, APIs, and web interfaces.',
   openGraph: {
-    title: 'Lucas Oliveira Barbosa — Portfólio',
+    title: 'Lucas Oliveira Barbosa — Portfolio',
     description:
-      'Produtos digitais claros, agentes de IA e fluxos conectados. Conheça o Conta Clara, o Nexo e outros projetos.',
+      'Explore Conta Clara, Nexo, and other projects in web development, AI agents, and automation.',
     type: 'website',
-    locale: 'pt_BR',
+    locale: 'en_US',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <body className={`${sans.variable} ${serif.variable} ${mono.variable}`}>
         {children}
       </body>
