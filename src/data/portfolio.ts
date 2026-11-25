@@ -122,7 +122,7 @@ export const PROJECTS: ProjectItem[] = [
         'Instant Command Palette (⌘K via cmdk) to jump across notes, spreadsheets, folders, tags, and quick actions',
         'Interactive d3-force knowledge graph with persistent node pinning, pinch-to-zoom, and connection inspector',
         'Editorial Markdown editor with KaTeX math, smart lists, interactive read-mode checklists, focus mode & undoable trash',
-        'Built-in spreadsheets (=SOMA, =MÉDIA) with arrow-key navigation and cloud sync conflict resolution',
+        'Built-in spreadsheets (=SUM, =AVG) with arrow-key navigation and cloud sync conflict resolution',
       ],
     },
     metrics: [
@@ -197,9 +197,9 @@ export const PROJECTS: ProjectItem[] = [
     },
     metrics: [
       { label: { pt: 'Canal', en: 'Channel' }, value: 'Telegram API' },
-      { label: { pt: 'Linguagem', en: 'Language' }, value: 'Python + IA' },
+      { label: { pt: 'Linguagem', en: 'Language' }, value: 'Python + AI' },
     ],
-    stack: ['Python', 'Telegram API', 'IA Aplicada', 'APIs REST', 'Data Viz'],
+    stack: ['Python', 'Telegram API', 'Applied AI', 'REST APIs', 'Data Viz'],
   },
   {
     id: 'atlas-anatomia-3d',
@@ -232,7 +232,7 @@ export const PROJECTS: ProjectItem[] = [
     },
     metrics: [
       { label: { pt: 'Renderização', en: 'Rendering' }, value: '3D WebGL' },
-      { label: { pt: 'Acesso', en: 'Access' }, value: 'Web Pública' },
+      { label: { pt: 'Acesso', en: 'Access' }, value: 'Public Web' },
     ],
     stack: ['Three.js', 'WebGL', 'JavaScript', 'HTML5', 'CSS3'],
   },
@@ -245,7 +245,7 @@ export const PROJECTS: ProjectItem[] = [
     secondaryAccent: '#818cf8',
     year: '2025–2026',
     repoUrl: 'https://github.com/Lucas-Barbosa-Oli/Project-POO-Python',
-    title: 'Cesuca Code & Pesquisa Python',
+    title: 'Cesuca Code & Python Research',
     subtitle: {
       pt: 'Pesquisa aplicada em IA educacional e visualização em tempo real',
       en: 'Applied research in educational AI & real-time Python visualization',
@@ -266,9 +266,9 @@ export const PROJECTS: ProjectItem[] = [
     },
     metrics: [
       { label: { pt: 'Instituição', en: 'Institution' }, value: 'Cesuca' },
-      { label: { pt: 'Domínio', en: 'Domain' }, value: 'IA & Python' },
+      { label: { pt: 'Domínio', en: 'Domain' }, value: 'AI & Python' },
     ],
-    stack: ['Python', 'Pesquisa em IA', 'POO', 'Visualização de Dados', 'Revisão Sistemática'],
+    stack: ['Python', 'AI Research', 'OOP', 'Data Viz', 'Systematic Review'],
   },
 ];
 
@@ -279,12 +279,15 @@ export const EXPERIENCE = [
       pt: 'Implantação de Soluções Tecnológicas e Inteligência Artificial',
       en: 'Technology & Artificial Intelligence Solutions Implementation',
     },
-    org: 'Umbler Brasil',
+    org: { pt: 'Umbler Brasil', en: 'Umbler Brasil' },
     summary: {
       pt: 'Levantamento de requisitos, arquitetura e desenvolvimento de chatbots e agentes de IA personalizados, automações com n8n e Make, integrações via APIs REST e validação de fluxos ponta a ponta com clientes.',
       en: 'Requirements gathering, custom chatbots and AI agents, n8n & Make workflow automations, REST API integrations, and end-to-end client validation.',
     },
-    tags: ['Agentes de IA', 'n8n', 'Make', 'APIs REST', 'Chatbots'],
+    tags: {
+      pt: ['Agentes de IA', 'n8n', 'Make', 'APIs REST', 'Chatbots'],
+      en: ['AI Agents', 'n8n', 'Make', 'REST APIs', 'Chatbots'],
+    },
   },
   {
     period: { pt: 'Em andamento', en: 'Ongoing' },
@@ -292,12 +295,15 @@ export const EXPERIENCE = [
       pt: 'Pesquisador em Inteligência Artificial · Cesuca Code',
       en: 'AI Researcher · Cesuca Code',
     },
-    org: 'Cesuca — Centro Universitário',
+    org: { pt: 'Cesuca — Centro Universitário', en: 'Cesuca University Center' },
     summary: {
       pt: 'Desenvolvimento colaborativo de uma solução de IA para responder dúvidas curriculares e apoiar estudantes de Ciência da Computação e ADS, fundamentada em revisão sistemática da literatura.',
       en: 'Collaborative development of an AI assistant supporting Computer Science students, grounded in systematic literature review.',
     },
-    tags: ['Pesquisa em IA', 'LLMs', 'Educação', 'Sprints'],
+    tags: {
+      pt: ['Pesquisa em IA', 'LLMs', 'Educação', 'Sprints'],
+      en: ['AI Research', 'LLMs', 'Education', 'Sprints'],
+    },
   },
   {
     period: { pt: 'Mar — Dez 2024', en: 'Mar — Dec 2024' },
@@ -305,12 +311,15 @@ export const EXPERIENCE = [
       pt: 'Bolsista Voluntário de Pesquisa em Desenvolvimento Python',
       en: 'Volunteer Research Developer (Python)',
     },
-    org: 'Cesuca — Centro Universitário',
+    org: { pt: 'Cesuca — Centro Universitário', en: 'Cesuca University Center' },
     summary: {
       pt: 'Implementação em Python da interface de visualização em tempo real para sistema de medição de temperatura, testes de interação e validação dos dados coletados.',
       en: 'Built a real-time Python visualization interface for a temperature measurement system, leading interaction tests and data validation.',
     },
-    tags: ['Python', 'Tempo Real', 'UI de Dados', 'Validação'],
+    tags: {
+      pt: ['Python', 'Tempo Real', 'UI de Dados', 'Validação'],
+      en: ['Python', 'Real-Time', 'Data UI', 'Validation'],
+    },
   },
   {
     period: { pt: 'Conclusão em 2027/2', en: 'Expected late 2027' },
@@ -318,30 +327,48 @@ export const EXPERIENCE = [
       pt: 'Bacharelado em Ciência da Computação',
       en: 'B.Sc. in Computer Science',
     },
-    org: 'Cesuca · Português nativo & Inglês fluente',
+    org: {
+      pt: 'Cesuca · Português nativo & Inglês fluente',
+      en: 'Cesuca · Native Portuguese & Fluent English',
+    },
     summary: {
       pt: 'Formação sólida em algoritmos, estruturas de dados, engenharia de software e inteligência artificial, complementada por certificações em Python, n8n (Asimov Academy) e IA (Alura).',
       en: 'Strong foundation in algorithms, data structures, software engineering, and AI, complemented by certifications in Python, n8n, and AI.',
     },
-    tags: ['Ciência da Computação', 'Algoritmos', 'Inglês Fluente'],
+    tags: {
+      pt: ['Ciência da Computação', 'Algoritmos', 'Inglês Fluente'],
+      en: ['Computer Science', 'Algorithms', 'Fluent English'],
+    },
   },
 ];
 
 export const SKILL_GROUPS = [
   {
     title: { pt: 'IA & Agentes', en: 'AI & Agents' },
-    items: ['Agentes de IA', 'Chatbots Inteligentes', 'RAG & Prompting', 'Automação Conversacional'],
+    items: {
+      pt: ['Agentes de IA', 'Chatbots Inteligentes', 'RAG & Prompting', 'Automação Conversacional'],
+      en: ['AI Agents', 'Smart Chatbots', 'RAG & Prompting', 'Conversational Automation'],
+    },
   },
   {
     title: { pt: 'Automações & APIs', en: 'Automation & APIs' },
-    items: ['n8n', 'Make', 'APIs REST & Webhooks', 'Supabase & Serverless'],
+    items: {
+      pt: ['n8n', 'Make', 'APIs REST & Webhooks', 'Supabase & Serverless'],
+      en: ['n8n', 'Make', 'REST APIs & Webhooks', 'Supabase & Serverless'],
+    },
   },
   {
     title: { pt: 'Frontend & Craft', en: 'Frontend & Craft' },
-    items: ['React & Next.js', 'TypeScript / JavaScript', 'Three.js & Chart.js', 'UX/UI & Motion Design'],
+    items: {
+      pt: ['React & Next.js', 'TypeScript / JavaScript', 'Three.js & Chart.js', 'UX/UI & Motion Design'],
+      en: ['React & Next.js', 'TypeScript / JavaScript', 'Three.js & Chart.js', 'UX/UI & Motion Design'],
+    },
   },
   {
     title: { pt: 'Engenharia & Base', en: 'Core Engineering' },
-    items: ['Python & POO', 'SQL & RLS', 'Testes Automatizados', 'Git & Deploy Contínuo'],
+    items: {
+      pt: ['Python & POO', 'SQL & RLS', 'Testes Automatizados', 'Git & Deploy Contínuo'],
+      en: ['Python & OOP', 'SQL & RLS', 'Automated Testing', 'Git & Continuous Delivery'],
+    },
   },
 ];

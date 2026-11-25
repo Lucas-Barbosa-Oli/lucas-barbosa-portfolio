@@ -17,19 +17,43 @@ import {
 import { PROJECTS, type Lang } from '../data/portfolio';
 
 const CASHFLOW_DEMO = [
-  { m: 'Jun', inc: 68, exp: 44, saldo: 'R$ 2.410' },
-  { m: 'Jul', inc: 74, exp: 51, saldo: 'R$ 2.890' },
-  { m: 'Ago', inc: 70, exp: 48, saldo: 'R$ 2.640' },
-  { m: 'Set', inc: 82, exp: 46, saldo: 'R$ 3.520' },
-  { m: 'Out', inc: 79, exp: 53, saldo: 'R$ 3.110' },
-  { m: 'Nov •', inc: 92, exp: 49, saldo: 'R$ 4.280' },
+  { m: { pt: 'Jun', en: 'Jun' }, inc: 68, exp: 44, saldo: 'R$ 2.410' },
+  { m: { pt: 'Jul', en: 'Jul' }, inc: 74, exp: 51, saldo: 'R$ 2.890' },
+  { m: { pt: 'Ago', en: 'Aug' }, inc: 70, exp: 48, saldo: 'R$ 2.640' },
+  { m: { pt: 'Set', en: 'Sep' }, inc: 82, exp: 46, saldo: 'R$ 3.520' },
+  { m: { pt: 'Out', en: 'Oct' }, inc: 79, exp: 53, saldo: 'R$ 3.110' },
+  { m: { pt: 'Nov •', en: 'Nov •' }, inc: 92, exp: 49, saldo: 'R$ 4.280' },
 ];
 
 const NEXO_NODES = [
-  { id: 'hub', label: 'Meu segundo cérebro', x: 150, y: 74, snippet: '[[Ideias]] · [[Planejamento]] · 3 tarefas' },
-  { id: 'sheet', label: 'Planejamento mensal', x: 62, y: 40, snippet: '=SOMA(B2:B4) → R$ 2.300,00' },
-  { id: 'ideas', label: 'Ideias & Estudos', x: 242, y: 42, snippet: '$O(n \\log n)$ · Busca rápida ⌘K' },
-  { id: 'daily', label: 'Nota do dia', x: 152, y: 128, snippet: '- [x] Conectar aprendizados da semana' },
+  {
+    id: 'hub',
+    label: { pt: 'Meu segundo cérebro', en: 'My second brain' },
+    x: 150,
+    y: 74,
+    snippet: { pt: '[[Ideias]] · [[Planejamento]] · 3 tarefas', en: '[[Ideas]] · [[Monthly Plan]] · 3 tasks' },
+  },
+  {
+    id: 'sheet',
+    label: { pt: 'Planejamento mensal', en: 'Monthly plan' },
+    x: 62,
+    y: 40,
+    snippet: { pt: '=SOMA(B2:B4) → R$ 2.300,00', en: '=SUM(B2:B4) → R$ 2,300.00' },
+  },
+  {
+    id: 'ideas',
+    label: { pt: 'Ideias & Estudos', en: 'Ideas & Study' },
+    x: 242,
+    y: 42,
+    snippet: { pt: '$O(n \\log n)$ · Busca rápida ⌘K', en: '$O(n \\log n)$ · Quick search ⌘K' },
+  },
+  {
+    id: 'daily',
+    label: { pt: 'Nota do dia', en: 'Daily note' },
+    x: 152,
+    y: 128,
+    snippet: { pt: '- [x] Conectar aprendizados da semana', en: '- [x] Link this week’s key learnings' },
+  },
 ];
 
 const AI_STEPS = [
@@ -72,6 +96,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
 
+  // Interactive miniature states
   const [privacyBlur, setPrivacyBlur] = useState(false);
   const [selectedMonth, setSelectedMonth] = useState(5);
   const [activeNode, setActiveNode] = useState('hub');
@@ -221,6 +246,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                   </div>
                 </div>
 
+                {/* Interactive Conta Clara Miniature */}
                 <div className="flagship-preview preview-teal">
                   <div className="mock-window">
                     <div className="mock-window-bar">
@@ -260,13 +286,13 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                       <div className="mock-cc-chart-head">
                         <span>{lang === 'pt' ? 'Receitas vs. Gastos (clique em um mês)' : 'Income vs. Expenses (click a month)'}</span>
                         <strong className={privacyBlur ? 'blurred-val' : ''}>
-                          {CASHFLOW_DEMO[selectedMonth].m.replace(' •', '')}: +{CASHFLOW_DEMO[selectedMonth].saldo}
+                          {CASHFLOW_DEMO[selectedMonth].m[lang].replace(' •', '')}: +{CASHFLOW_DEMO[selectedMonth].saldo}
                         </strong>
                       </div>
                       <div className="mock-cc-bars">
                         {CASHFLOW_DEMO.map((d, idx) => (
                           <button
-                            key={d.m}
+                            key={d.m.en}
                             type="button"
                             className={selectedMonth === idx ? 'mock-bar-col selected' : 'mock-bar-col'}
                             onClick={() => setSelectedMonth(idx)}
@@ -275,7 +301,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                               <span className="bar-inc" style={{ height: `${d.inc}%` }} />
                               <span className="bar-exp" style={{ height: `${d.exp}%` }} />
                             </div>
-                            <small>{d.m}</small>
+                            <small>{d.m[lang]}</small>
                           </button>
                         ))}
                       </div>
@@ -345,6 +371,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                   </div>
                 </div>
 
+                {/* Interactive Nexo Miniature */}
                 <div className="flagship-preview preview-amber">
                   <div className="mock-window nexo-warm">
                     <div className="mock-window-bar">
@@ -389,7 +416,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                                 fill={n.id === 'sheet' ? '#38bdf8' : '#e07a5f'}
                               />
                               <text x={n.x} y={n.y + 20} textAnchor="middle">
-                                {n.label}
+                                {n.label[lang]}
                               </text>
                             </g>
                           );
@@ -398,8 +425,8 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                     </div>
 
                     <div className="mock-nexo-inspector">
-                      <strong>{currentNode.label}</strong>
-                      <code>{currentNode.snippet}</code>
+                      <strong>{currentNode.label[lang]}</strong>
+                      <code>{currentNode.snippet[lang]}</code>
                     </div>
                   </div>
                 </div>

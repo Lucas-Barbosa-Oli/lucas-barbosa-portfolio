@@ -78,10 +78,19 @@ export default function PortfolioApp() {
     setScrollFraction(latest);
   });
 
+  // Language persistence (defaults to English for new visitors)
+  useEffect(() => {
+    const savedLang = localStorage.getItem('lb:lang');
+    if (savedLang === 'pt' || savedLang === 'en') {
+      setLang(savedLang);
+    }
+  }, []);
+
   useEffect(() => {
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : 'en';
   }, [lang]);
 
+  // Theme persistence
   useEffect(() => {
     const saved = localStorage.getItem('lb:theme');
     if (saved === 'light' || saved === 'dark') {
@@ -94,6 +103,7 @@ export default function PortfolioApp() {
     localStorage.setItem('lb:theme', theme);
   }, [theme]);
 
+  // Smooth inertial scrolling via Lenis (respects prefers-reduced-motion)
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const lenis = new Lenis({
@@ -112,6 +122,7 @@ export default function PortfolioApp() {
     };
   }, []);
 
+  // Observe active section for nav + right-side chapter rail
   useEffect(() => {
     const elements = CHAPTERS.map(c => document.getElementById(c.id)).filter(Boolean) as HTMLElement[];
     if (!elements.length) return;
@@ -130,6 +141,7 @@ export default function PortfolioApp() {
     return () => io.disconnect();
   }, []);
 
+  // Close modal on Escape
   useEffect(() => {
     if (!inspectedProject) return;
     const onKey = (e: KeyboardEvent) => {
@@ -156,6 +168,7 @@ export default function PortfolioApp() {
   const filteredProjects =
     activeTab === 'all' ? PROJECTS : PROJECTS.filter(project => project.category === activeTab);
 
+  // Dynamic ambient hue shift across scroll
   const ambientColor =
     scrollFraction < 0.28
       ? 'rgba(56, 189, 248, 0.13)'
@@ -174,10 +187,14 @@ export default function PortfolioApp() {
 
   return (
     <div className="portfolio-shell" style={{ ['--ambient-glow' as string]: ambientColor }}>
+      {/* Top Scroll Progress Bar */}
       <motion.div className="top-scroll-bar" style={{ scaleX: smoothProgress }} aria-hidden="true" />
+
+      {/* Subtle Architectural Grid + Dynamic Scroll Glow */}
       <div className="bg-grid-layer" aria-hidden="true" />
       <div className="bg-ambient-orb" aria-hidden="true" />
 
+      {/* Floating Glass Header Dock */}
       <header className="glass-dock-wrap">
         <nav className="glass-dock" aria-label={lang === 'pt' ? 'Navegação principal' : 'Primary navigation'}>
           <button type="button" className="brand-monogram" onClick={() => scrollToSection('inicio')}>
@@ -224,8 +241,15 @@ export default function PortfolioApp() {
             <button
               type="button"
               className="dock-lang-btn"
-              onClick={() => setLang(l => (l === 'pt' ? 'en' : 'pt'))}
+              onClick={() =>
+                setLang(prev => {
+                  const next = prev === 'en' ? 'pt' : 'en';
+                  localStorage.setItem('lb:lang', next);
+                  return next;
+                })
+              }
               aria-label={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
+              title={lang === 'pt' ? 'Switch to English' : 'Mudar para Português'}
             >
               <Globe size={13} />
               <span>{lang.toUpperCase()}</span>
@@ -234,8 +258,24 @@ export default function PortfolioApp() {
               type="button"
               className="dock-icon-btn"
               onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
-              aria-label={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
-              title={theme === 'dark' ? 'Tema claro' : 'Tema escuro'}
+              aria-label={
+                lang === 'pt'
+                  ? theme === 'dark'
+                    ? 'Ativar tema claro'
+                    : 'Ativar tema escuro'
+                  : theme === 'dark'
+                    ? 'Switch to light mode'
+                    : 'Switch to dark mode'
+              }
+              title={
+                lang === 'pt'
+                  ? theme === 'dark'
+                    ? 'Tema claro'
+                    : 'Tema escuro'
+                  : theme === 'dark'
+                    ? 'Light mode'
+                    : 'Dark mode'
+              }
             >
               {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
             </button>
@@ -243,6 +283,7 @@ export default function PortfolioApp() {
         </nav>
       </header>
 
+      {/* Right-Edge Interactive Scroll Chapter Rail */}
       <aside className="scroll-rail" aria-label={lang === 'pt' ? 'Progresso da página' : 'Page progress'}>
         <span className="rail-percent">{Math.round(scrollFraction * 100)}%</span>
         <div className="rail-dots">
@@ -263,6 +304,7 @@ export default function PortfolioApp() {
       </aside>
 
       <main>
+        {/* 01 — HERO SECTION */}
         <section id="inicio" className="hero-section">
           <div className="container hero-grid">
             <motion.div
@@ -285,7 +327,7 @@ export default function PortfolioApp() {
                   </>
                 ) : (
                   <>
-                    Crafted <span className="serif-italic">digital</span> products, AI agents & connected workflows.
+                     Crafted <span className="serif-italic">digital</span> products, AI agents & connected workflows.
                   </>
                 )}
               </h1>
@@ -326,7 +368,7 @@ export default function PortfolioApp() {
                 </div>
                 <div>
                   <Briefcase size={14} />
-                  <span>Umbler Brasil · IA & Automações</span>
+                  <span>{lang === 'pt' ? 'Umbler Brasil · IA & Automações' : 'Umbler Brasil · AI & Automation'}</span>
                 </div>
                 <div>
                   <GraduationCap size={14} />
@@ -335,6 +377,7 @@ export default function PortfolioApp() {
               </div>
             </motion.div>
 
+            {/* Interactive Scroll-Evolving Three.js Sculpture */}
             <motion.div
               className="hero-visual-card"
               initial={{ opacity: 0, scale: 0.96 }}
@@ -351,7 +394,7 @@ export default function PortfolioApp() {
                 </span>
               </div>
 
-              <NeuralCore3D scrollProgress={scrollFraction} theme={theme} />
+              <NeuralCore3D scrollProgress={scrollFraction} theme={theme} lang={lang} />
 
               <div className="visual-hud-bottom">
                 <div className="hud-project-shortcut" onClick={() => scrollToSection('destaques')}>
@@ -373,8 +416,10 @@ export default function PortfolioApp() {
           </div>
         </section>
 
+        {/* 02 — STICKY HORIZONTAL SCROLL SHOWCASE (CONTA CLARA, NEXO, AI) */}
         <FlagshipShowcase lang={lang} />
 
+        {/* 03 — TABBED ECOSYSTEM & PROJECT EXPLORER */}
         <section id="projetos" className="projects-section">
           <div className="container">
             <div className="section-header-split">
@@ -494,6 +539,7 @@ export default function PortfolioApp() {
           </div>
         </section>
 
+        {/* 04 — EXPERIENCE, RESEARCH & SKILLS */}
         <section id="trajetoria" className="journey-section">
           <div className="container">
             <div className="journey-grid">
@@ -513,10 +559,10 @@ export default function PortfolioApp() {
 
                 <div className="skills-matrix">
                   {SKILL_GROUPS.map(group => (
-                    <div key={group.title.pt} className="skill-card">
+                    <div key={group.title.en} className="skill-card">
                       <h3>{group.title[lang]}</h3>
                       <ul>
-                        {group.items.map(item => (
+                        {group.items[lang].map(item => (
                           <li key={item}>{item}</li>
                         ))}
                       </ul>
@@ -527,15 +573,15 @@ export default function PortfolioApp() {
 
               <div className="timeline-list">
                 {EXPERIENCE.map(item => (
-                  <article key={item.role.pt} className="timeline-card">
+                  <article key={item.role.en} className="timeline-card">
                     <div className="timeline-meta">
                       <span className="timeline-period">{item.period[lang]}</span>
-                      <span className="timeline-org">{item.org}</span>
+                      <span className="timeline-org">{item.org[lang]}</span>
                     </div>
                     <h3>{item.role[lang]}</h3>
                     <p>{item.summary[lang]}</p>
                     <div className="stack-row compact">
-                      {item.tags.map(tag => (
+                      {item.tags[lang].map(tag => (
                         <span key={tag} className="tech-chip">{tag}</span>
                       ))}
                     </div>
@@ -546,6 +592,7 @@ export default function PortfolioApp() {
           </div>
         </section>
 
+        {/* 05 — CONTACT & SOCIAL LINKS */}
         <section id="contato" className="contact-section">
           <div className="container">
             <div className="contact-card">
@@ -630,6 +677,7 @@ export default function PortfolioApp() {
         </section>
       </main>
 
+      {/* TECHNICAL X-RAY MODAL */}
       <AnimatePresence>
         {inspectedProject && (
           <motion.div

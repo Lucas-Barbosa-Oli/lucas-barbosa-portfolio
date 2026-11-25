@@ -25,13 +25,14 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Lucas Oliveira Barbosa — Web Engineering, AI & Automation',
   description:
-    'Portfolio of Lucas Oliveira Barbosa, creator of Conta Clara and Nexo. I work with AI, automation, APIs, and web interfaces.',
+    'Portfolio of Lucas Oliveira Barbosa. Creator of Conta Clara and Nexo, building AI agents, workflow automations, APIs, and crafted web interfaces.',
   openGraph: {
     title: 'Lucas Oliveira Barbosa — Portfolio',
     description:
-      'Explore Conta Clara, Nexo, and other projects in web development, AI agents, and automation.',
+      'Crafted digital products, AI agents, and connected workflows. Explore Conta Clara, Nexo, and selected engineering work.',
     type: 'website',
     locale: 'en_US',
+    alternateLocale: ['pt_BR'],
   },
 };
 

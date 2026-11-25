@@ -6,6 +6,7 @@ import * as THREE from 'three';
 interface NeuralCore3DProps {
   scrollProgress: number;
   theme: 'dark' | 'light';
+  lang?: 'pt' | 'en';
 }
 
 const PALETTES = [
@@ -15,7 +16,7 @@ const PALETTES = [
   { primary: new THREE.Color('#818cf8'), secondary: new THREE.Color('#38bdf8') },
 ];
 
-export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProps) {
+export default function NeuralCore3D({ scrollProgress, theme, lang = 'en' }: NeuralCore3DProps) {
   const mountRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef(scrollProgress);
   const themeRef = useRef(theme);
@@ -58,6 +59,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
     const root = new THREE.Group();
     scene.add(root);
 
+    // Lighting
     const ambient = new THREE.AmbientLight(0xffffff, 0.85);
     const keyLight = new THREE.PointLight(0x38bdf8, 3.2, 18);
     keyLight.position.set(3.2, 2.8, 4.2);
@@ -65,6 +67,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
     rimLight.position.set(-3.4, -2.2, 3.0);
     scene.add(ambient, keyLight, rimLight);
 
+    // Inner faceted core
     const coreGeo = new THREE.OctahedronGeometry(0.78, 1);
     const coreMat = new THREE.MeshPhysicalMaterial({
       color: 0x0f172a,
@@ -78,6 +81,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
     root.add(coreMesh);
 
+    // Outer neural wireframe shell
     const shellGeo = new THREE.IcosahedronGeometry(1.32, 1);
     const shellWireGeo = new THREE.WireframeGeometry(shellGeo);
     const shellMat = new THREE.LineBasicMaterial({
@@ -88,6 +92,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
     const shellLines = new THREE.LineSegments(shellWireGeo, shellMat);
     root.add(shellLines);
 
+    // Three orbital rings
     const ringConfigs = [
       { radius: 1.78, tube: 0.022, rx: 1.05, ry: 0.25 },
       { radius: 2.12, tube: 0.018, rx: -0.68, ry: 0.88 },
@@ -116,6 +121,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
       ringGeos.push(geo);
     });
 
+    // Orbital satellite nodes
     const satCount = 48;
     const satPositions = new Float32Array(satCount * 3);
     for (let i = 0; i < satCount; i++) {
@@ -137,6 +143,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
     const satellites = new THREE.Points(satGeo, satMat);
     root.add(satellites);
 
+    // Pointer parallax
     const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
     const onPointerMove = (e: PointerEvent) => {
       pointer.tx = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -166,6 +173,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
       const t = clock.getElapsedTime();
       const p = Math.max(0, Math.min(1, progressRef.current));
 
+      // Smoothly interpolate across the 4 chapter palettes based on scroll
       const scaled = p * (PALETTES.length - 1);
       const idx = Math.min(PALETTES.length - 2, Math.floor(scaled));
       const localT = scaled - idx;
@@ -189,12 +197,14 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
         m.emissiveIntensity = isLight ? 0.18 : 0.38;
       });
 
+      // Decay click pulse
       pulseRef.current *= 0.93;
       const pulseScale = 1 + pulseRef.current * 0.16;
 
       pointer.x += (pointer.tx - pointer.x) * 0.06;
       pointer.y += (pointer.ty - pointer.y) * 0.06;
 
+      // Scroll-driven geometric evolution
       const baseSpin = reduceMotion ? 0 : t * 0.22;
       root.rotation.y = baseSpin + p * Math.PI * 1.85 + pointer.x * 0.35;
       root.rotation.x = Math.sin(p * Math.PI) * 0.42 - pointer.y * 0.28;
@@ -257,7 +267,7 @@ export default function NeuralCore3D({ scrollProgress, theme }: NeuralCore3DProp
       onClick={() => {
         pulseRef.current = 1;
       }}
-      title="Clique para pulsar a estrutura 3D"
+      title={lang === 'pt' ? 'Clique para pulsar a estrutura 3D' : 'Click to pulse the 3D core'}
       aria-hidden="true"
     />
   );
