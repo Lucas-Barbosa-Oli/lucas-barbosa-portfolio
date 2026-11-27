@@ -1,6 +1,6 @@
 export type Lang = 'pt' | 'en';
 
-export type ProjectCategory = 'web' | 'ai' | 'research';
+export type ProjectCategory = 'web' | 'ai';
 
 export interface ProjectItem {
   id: string;
@@ -235,40 +235,6 @@ export const PROJECTS: ProjectItem[] = [
       { label: { pt: 'Acesso', en: 'Access' }, value: 'Public Web' },
     ],
     stack: ['JavaScript', 'HTML & CSS', 'Three.js', 'WebGL'],
-  },
-  {
-    id: 'cesuca-code',
-    slug: '06',
-    featured: false,
-    category: 'research',
-    accent: '#14b8a6',
-    secondaryAccent: '#14b8a6',
-    year: '2024–2026',
-    repoUrl: 'https://github.com/Lucas-Barbosa-Oli/Project-POO-Python',
-    title: 'Cesuca Code & Pesquisa Python',
-    subtitle: {
-      pt: 'Pesquisa em IA para estudantes (Cesuca Code) e visualização térmica em Python',
-      en: 'Academic AI research (Cesuca Code) & real-time Python telemetry',
-    },
-    summary: {
-      pt: 'Desenvolvimento em equipe de solução de IA para apoiar estudantes de Computação e ADS com revisão sistemática da literatura, além da interface Python em tempo real para medição de temperatura.',
-      en: 'Team-built AI solution supporting Computer Science and Systems Analysis students backed by systematic literature review, alongside a real-time Python interface for temperature measurement.',
-    },
-    highlights: {
-      pt: [
-        'Cesuca Code: condução da revisão sistemática da literatura e programação da IA para dúvidas curriculares',
-        'Pesquisa 2024: interface em Python para visualização em tempo real e validação de dados de temperatura em sprints',
-      ],
-      en: [
-        'Cesuca Code: leading systematic literature review and programming the AI assistant for curriculum support',
-        '2024 Research: real-time Python UI and data validation for a temperature measurement system in agile sprints',
-      ],
-    },
-    metrics: [
-      { label: { pt: 'Instituição', en: 'Institution' }, value: 'CESUCA' },
-      { label: { pt: 'Método', en: 'Method' }, value: 'Literature Review' },
-    ],
-    stack: ['Python', 'AI Research', 'Systematic Review', 'Agile Sprints'],
   },
 ];
 

@@ -151,10 +151,9 @@ export default function PortfolioApp() {
     activeTab === 'all' ? PROJECTS : PROJECTS.filter(project => project.category === activeTab);
 
   const filterTabs: { id: 'all' | ProjectCategory; pt: string; en: string }[] = [
-    { id: 'all', pt: 'Todos (6)', en: 'All (6)' },
+    { id: 'all', pt: 'Todos (5)', en: 'All (5)' },
     { id: 'web', pt: 'Produtos Web', en: 'Web Products' },
     { id: 'ai', pt: 'IA & Automações', en: 'AI & Automation' },
-    { id: 'research', pt: 'Pesquisa & Python', en: 'Research & Python' },
   ];
 
   return (
