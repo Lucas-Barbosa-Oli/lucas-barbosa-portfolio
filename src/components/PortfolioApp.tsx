@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import Lenis from 'lenis';
-import { AnimatePresence, motion, useScroll, useSpring } from 'motion/react';
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useSpring } from 'motion/react';
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -24,6 +25,7 @@ import {
   Moon,
   Sparkles,
   Sun,
+  Terminal,
   X,
 } from 'lucide-react';
 import FlagshipShowcase from './FlagshipShowcase';
@@ -36,6 +38,17 @@ import {
   type ProjectCategory,
   type ProjectItem,
 } from '../data/portfolio';
+
+const NeuralCore3D = dynamic(() => import('./NeuralCore3D'), {
+  ssr: false,
+  loading: () => (
+    <div className="neural-fallback" aria-hidden="true">
+      <div className="neural-fallback-ring r1" />
+      <div className="neural-fallback-ring r2" />
+      <div className="neural-fallback-core" />
+    </div>
+  ),
+});
 
 const CHAPTERS = [
   { id: 'inicio', num: '01', pt: 'Início', en: 'Home' },
@@ -50,6 +63,7 @@ export default function PortfolioApp() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [activeTab, setActiveTab] = useState<'all' | ProjectCategory>('all');
   const [activeChapter, setActiveChapter] = useState<string>('inicio');
+  const [scrollFraction, setScrollFraction] = useState(0);
   const [inspectedProject, setInspectedProject] = useState<ProjectItem | null>(null);
   const [copiedEmail, setCopiedEmail] = useState(false);
 
@@ -58,6 +72,10 @@ export default function PortfolioApp() {
     stiffness: 140,
     damping: 26,
     restDelta: 0.001,
+  });
+
+  useMotionValueEvent(scrollYProgress, 'change', latest => {
+    setScrollFraction(latest);
   });
 
   // Language persistence (defaults to English for new visitors)
@@ -150,6 +168,16 @@ export default function PortfolioApp() {
   const filteredProjects =
     activeTab === 'all' ? PROJECTS : PROJECTS.filter(project => project.category === activeTab);
 
+  // Dynamic ambient hue shift across scroll
+  const ambientColor =
+    scrollFraction < 0.28
+      ? 'rgba(56, 189, 248, 0.13)'
+      : scrollFraction < 0.55
+        ? 'rgba(45, 212, 191, 0.13)'
+        : scrollFraction < 0.78
+          ? 'rgba(224, 122, 95, 0.13)'
+          : 'rgba(129, 140, 248, 0.14)';
+
   const filterTabs: { id: 'all' | ProjectCategory; pt: string; en: string }[] = [
     { id: 'all', pt: 'Todos (5)', en: 'All (5)' },
     { id: 'web', pt: 'Produtos Web', en: 'Web Products' },
@@ -157,11 +185,15 @@ export default function PortfolioApp() {
   ];
 
   return (
-    <div className="portfolio-shell">
+    <div className="portfolio-shell" style={{ ['--ambient-glow' as string]: ambientColor }}>
       {/* Top Scroll Progress Bar */}
       <motion.div className="top-scroll-bar" style={{ scaleX: smoothProgress }} aria-hidden="true" />
 
-      {/* Flat Sticky Header */}
+      {/* Subtle Architectural Grid + Dynamic Scroll Glow */}
+      <div className="bg-grid-layer" aria-hidden="true" />
+      <div className="bg-ambient-orb" aria-hidden="true" />
+
+      {/* Floating Glass Header Dock */}
       <header className="glass-dock-wrap">
         <nav className="glass-dock" aria-label={lang === 'pt' ? 'Navegação principal' : 'Primary navigation'}>
           <button type="button" className="brand-monogram" onClick={() => scrollToSection('inicio')}>
@@ -250,25 +282,60 @@ export default function PortfolioApp() {
         </nav>
       </header>
 
+      {/* Right-Edge Interactive Scroll Chapter Rail */}
+      <aside className="scroll-rail" aria-label={lang === 'pt' ? 'Progresso da página' : 'Page progress'}>
+        <span className="rail-percent">{Math.round(scrollFraction * 100)}%</span>
+        <div className="rail-dots">
+          {CHAPTERS.map(ch => (
+            <button
+              key={ch.id}
+              type="button"
+              className={activeChapter === ch.id ? 'rail-dot active' : 'rail-dot'}
+              onClick={() => scrollToSection(ch.id)}
+              title={`${ch.num} · ${lang === 'pt' ? ch.pt : ch.en}`}
+              aria-label={`${lang === 'pt' ? 'Ir para' : 'Go to'} ${lang === 'pt' ? ch.pt : ch.en}`}
+            >
+              <span className="rail-dot-label">{lang === 'pt' ? ch.pt : ch.en}</span>
+              <i />
+            </button>
+          ))}
+        </div>
+      </aside>
+
       <main>
         {/* 01 — HERO SECTION */}
         <section id="inicio" className="hero-section">
           <div className="container hero-grid">
             <motion.div
               className="hero-copy"
-              initial={{ opacity: 0, y: 12 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
             >
+              <div className="availability-pill">
+                <span className="pulse-dot" />
+                <span>{PROFILE.availability[lang]}</span>
+              </div>
+
               <p className="hero-role">{PROFILE.role[lang]}</p>
 
-              <h1>{PROFILE.headline[lang]}</h1>
+              <h1>
+                {lang === 'pt' ? (
+                  <>
+                    Agentes de IA, <span className="serif-italic">automações</span> e aplicações web para problemas reais.
+                  </>
+                ) : (
+                  <>
+                    AI agents, <span className="serif-italic">automations</span>, and web apps built for real workflows.
+                  </>
+                )}
+              </h1>
 
               <p className="hero-lead">{PROFILE.subheadline[lang]}</p>
 
               <div className="hero-cta-row">
                 <button type="button" className="btn-primary" onClick={() => scrollToSection('destaques')}>
-                  {lang === 'pt' ? 'Ver Conta Clara & Nexo' : 'Explore Conta Clara & Nexo'}
+                  {lang === 'pt' ? 'Explorar Conta Clara & Nexo' : 'Explore Conta Clara & Nexo'}
                   <ArrowDownRight size={17} />
                 </button>
                 <a
@@ -309,69 +376,42 @@ export default function PortfolioApp() {
               </div>
             </motion.div>
 
-            {/* Grounded Selected-Work Access Panel (replaces decorative 3D orb) */}
-            <aside className="hero-work-panel" aria-label={lang === 'pt' ? 'Acesso rápido aos projetos' : 'Quick project access'}>
-              <div className="hero-work-header">
-                <span>{lang === 'pt' ? 'Projetos & atuação' : 'Featured work & focus'}</span>
-                <span>2024–2026</span>
+            {/* Interactive Scroll-Evolving Three.js Sculpture */}
+            <motion.div
+              className="hero-visual-card"
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="visual-hud-top">
+                <span className="hud-tag">
+                  <Terminal size={12} />
+                  01 // THREE.JS NEURAL CORE
+                </span>
+                <span className="hud-coords">
+                  SCROLL {Math.round(scrollFraction * 100).toString().padStart(2, '0')}%
+                </span>
               </div>
-              <div className="hero-work-list">
-                <a
-                  href="https://conta-clara-tawny.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hero-work-item"
-                >
+
+              <NeuralCore3D scrollProgress={scrollFraction} theme={theme} lang={lang} />
+
+              <div className="visual-hud-bottom">
+                <button type="button" className="hud-project-shortcut" onClick={() => scrollToSection('destaques')}>
+                  <span className="dot-teal" />
                   <div>
                     <strong>Conta Clara</strong>
-                    <p>
-                      {lang === 'pt'
-                        ? 'Finanças pessoais separando saldo disponível hoje de compromissos futuros, com Open Finance.'
-                        : 'Personal finance app separating available cash today from upcoming bills, with Open Finance sync.'}
-                    </p>
-                    <span className="hero-work-meta">conta-clara-tawny.vercel.app</span>
+                    <small>{lang === 'pt' ? 'Finanças & Open Finance' : 'Personal Finance'}</small>
                   </div>
-                  <ArrowUpRight size={16} className="hero-work-arrow" />
-                </a>
-
-                <a
-                  href="https://nexo-second-brain.vercel.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hero-work-item"
-                >
+                </button>
+                <button type="button" className="hud-project-shortcut" onClick={() => scrollToSection('destaques')}>
+                  <span className="dot-amber" />
                   <div>
                     <strong>Nexo</strong>
-                    <p>
-                      {lang === 'pt'
-                        ? 'Notas conectadas com [[wikilinks]], grafo de relações e planilhas offline (PWA).'
-                        : 'Connected notes with [[wikilinks]], interactive relationship graph, and offline spreadsheets (PWA).'}
-                    </p>
-                    <span className="hero-work-meta">nexo-second-brain.vercel.app · Open Source</span>
+                    <small>{lang === 'pt' ? 'Segundo Cérebro & Grafo' : 'Second Brain & Graph'}</small>
                   </div>
-                  <ArrowUpRight size={16} className="hero-work-arrow" />
-                </a>
-
-                <button
-                  type="button"
-                  className="hero-work-item"
-                  onClick={() => scrollToSection('trajetoria')}
-                >
-                  <div>
-                    <strong>{lang === 'pt' ? 'Umbler & Cesuca Code' : 'Umbler & Cesuca Code'}</strong>
-                    <p>
-                      {lang === 'pt'
-                        ? 'Chatbots, agentes de IA, n8n, Make, APIs REST e pesquisa acadêmica em IA no CESUCA.'
-                        : 'Custom chatbots, AI agents, n8n, Make, REST APIs, and academic AI research at CESUCA.'}
-                    </p>
-                    <span className="hero-work-meta">
-                      {lang === 'pt' ? 'Ver experiência e currículo →' : 'View experience & CV →'}
-                    </span>
-                  </div>
-                  <ArrowDownRight size={16} className="hero-work-arrow" />
                 </button>
               </div>
-            </aside>
+            </motion.div>
           </div>
         </section>
 
@@ -561,9 +601,15 @@ export default function PortfolioApp() {
                   {lang === 'pt' ? 'CONEXÃO DIRETA' : 'GET IN TOUCH'}
                 </span>
                 <h2>
-                  {lang === 'pt'
-                    ? 'Vamos conversar sobre projetos, IA e automações.'
-                    : 'Let’s talk about projects, AI, and automation.'}
+                  {lang === 'pt' ? (
+                    <>
+                      Vamos conversar sobre <span className="serif-italic">projetos, IA</span> e automações?
+                    </>
+                  ) : (
+                    <>
+                      Let’s talk about <span className="serif-italic">projects, AI</span> & automation.
+                    </>
+                  )}
                 </h2>
                 <p>
                   {lang === 'pt'

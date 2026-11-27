@@ -196,6 +196,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                   <div className="flagship-badge-row">
                     <span className="project-index">01 / 03</span>
                     <span className="live-pill">
+                      <span className="pulse-dot" />
                       {lang === 'pt' ? 'Em produção · Vercel' : 'Live on Vercel'}
                     </span>
                   </div>
@@ -317,6 +318,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                   <div className="flagship-badge-row">
                     <span className="project-index">02 / 03</span>
                     <span className="live-pill warm">
+                      <span className="pulse-dot warm" />
                       {lang === 'pt' ? 'Em produção · Código aberto' : 'Live · Open Source'}
                     </span>
                   </div>
