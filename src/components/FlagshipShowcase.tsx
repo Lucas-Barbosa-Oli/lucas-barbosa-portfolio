@@ -196,8 +196,7 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                   <div className="flagship-badge-row">
                     <span className="project-index">01 / 03</span>
                     <span className="live-pill">
-                      <span className="pulse-dot" />
-                      {lang === 'pt' ? 'Em produção na Vercel' : 'Live on Vercel'}
+                      {lang === 'pt' ? 'Em produção · Vercel' : 'Live on Vercel'}
                     </span>
                   </div>
 
@@ -253,7 +252,9 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                       <div className="mock-dots">
                         <span /><span /><span />
                       </div>
-                      <span className="mock-url">conta-clara-tawny.vercel.app</span>
+                      <span className="mock-url">
+                        {lang === 'pt' ? 'demo ilustrativa · dados fictícios' : 'interactive demo · sample data'}
+                      </span>
                       <button
                         type="button"
                         className="mock-interactive-btn"
@@ -316,7 +317,6 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                   <div className="flagship-badge-row">
                     <span className="project-index">02 / 03</span>
                     <span className="live-pill warm">
-                      <span className="pulse-dot warm" />
                       {lang === 'pt' ? 'Em produção · Código aberto' : 'Live · Open Source'}
                     </span>
                   </div>
@@ -378,7 +378,9 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                       <div className="mock-dots">
                         <span /><span /><span />
                       </div>
-                      <span className="mock-url">nexo-second-brain.vercel.app</span>
+                      <span className="mock-url">
+                        {lang === 'pt' ? 'demo ilustrativa · grafo Nexo' : 'interactive demo · Nexo graph'}
+                      </span>
                       <span className="mock-kbd-pill">⌘K</span>
                     </div>
 
@@ -505,40 +507,58 @@ export default function FlagshipShowcase({ lang }: { lang: Lang }) {
                       <div className="mock-dots">
                         <span /><span /><span />
                       </div>
-                      <span className="mock-url">pipeline · n8n + python + llm</span>
+                      <span className="mock-url">
+                        {lang === 'pt' ? 'fluxo de implantação · Umbler' : 'implementation workflow · Umbler'}
+                      </span>
                     </div>
 
                     <div className="mock-ai-terminal">
                       <div className="term-line">
-                        <span className="term-tag">[WEBHOOK]</span>
-                        <span>POST /api/v1/incoming-message · 200 OK</span>
+                        <span className="term-tag">[01]</span>
+                        <span>
+                          {lang === 'pt'
+                            ? 'Levantamento de requisitos e escopo operacional'
+                            : 'Requirements gathering & operational scope'}
+                        </span>
                       </div>
                       <div className="term-line">
-                        <span className="term-tag cyan">[AGENT]</span>
-                        <span>Intent: Structured extraction + context retrieval (RAG)</span>
+                        <span className="term-tag cyan">[02]</span>
+                        <span>
+                          {lang === 'pt'
+                            ? 'Desenvolvimento de chatbots e agentes de IA'
+                            : 'Custom chatbots & AI agents tailored to the project'}
+                        </span>
                       </div>
                       <div className="term-line">
-                        <span className="term-tag amber">[WORKFLOW]</span>
-                        <span>n8n → REST API → Supabase RLS validated</span>
+                        <span className="term-tag amber">[03]</span>
+                        <span>
+                          {lang === 'pt'
+                            ? 'Integrações com n8n, Make e APIs REST'
+                            : 'System integrations via n8n, Make, and REST APIs'}
+                        </span>
                       </div>
                       <div className="term-line">
-                        <span className="term-tag emerald">[RESULT]</span>
-                        <span>{lang === 'pt' ? 'Fluxo concluído e auditado em 340ms' : 'Workflow completed & verified in 340ms'}</span>
+                        <span className="term-tag emerald">[04]</span>
+                        <span>
+                          {lang === 'pt'
+                            ? 'Testes, validação dos fluxos e suporte funcional'
+                            : 'Flow testing, validation, and functional consulting'}
+                        </span>
                       </div>
                     </div>
 
                     <div className="mock-ai-stats">
                       <div>
-                        <strong>Python · TS</strong>
-                        <span>{lang === 'pt' ? 'Código & APIs' : 'Code & APIs'}</span>
+                        <strong>Python · JS</strong>
+                        <span>{lang === 'pt' ? 'Desenvolvimento' : 'Development'}</span>
                       </div>
                       <div>
                         <strong>n8n · Make</strong>
-                        <span>{lang === 'pt' ? 'Orquestração' : 'Orchestration'}</span>
+                        <span>{lang === 'pt' ? 'Automações' : 'Automations'}</span>
                       </div>
                       <div>
-                        <strong>LLMs · RAG</strong>
-                        <span>{lang === 'pt' ? 'Agentes IA' : 'AI Agents'}</span>
+                        <strong>REST APIs</strong>
+                        <span>{lang === 'pt' ? 'Integrações' : 'Integrations'}</span>
                       </div>
                     </div>
                   </div>

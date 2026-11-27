@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
+import './theme-refinement.css';
 
 const sans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -23,13 +24,13 @@ const mono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Lucas Oliveira Barbosa — Web Engineering, AI & Automation',
+  title: 'Lucas Oliveira Barbosa — AI Solutions, Automation & Web',
   description:
-    'Portfolio of Lucas Oliveira Barbosa. Creator of Conta Clara and Nexo, building AI agents, workflow automations, APIs, and crafted web interfaces.',
+    'Portfolio of Lucas Oliveira Barbosa. Technology & AI Solutions Implementation at Umbler, Computer Science student at Cesuca, creator of Conta Clara and Nexo.',
   openGraph: {
     title: 'Lucas Oliveira Barbosa — Portfolio',
     description:
-      'Crafted digital products, AI agents, and connected workflows. Explore Conta Clara, Nexo, and selected engineering work.',
+      'AI agents, n8n/Make automations, REST API integrations, and web projects including Conta Clara and Nexo.',
     type: 'website',
     locale: 'en_US',
     alternateLocale: ['pt_BR'],
